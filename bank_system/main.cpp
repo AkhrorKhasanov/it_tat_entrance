@@ -2,7 +2,52 @@
 #include <fstream>
 using namespace std;
 
+void deposit(string user_login, int new_balance)
+{
+    ifstream f("data.txt");
+    ofstream f2("temp.txt");
+    
+    string name, login, password;
+    int balance;
+    
+    while (f >> name >> login >> password >> balance)
+    {
+        if (user_login == login)
+        {
+            balance += new_balance;
+        }
+        f2 << name << " " << login << " " << password << " " << balance << endl;
+    }
+    
+    f.close();
+    f2.close();
+    
+    remove("data.txt");
+    rename("temp.txt", "data.txt");
+    
+}
 
+bool is_user_registered(string user_login)
+{
+    bool flag = false;
+    string name, login;
+    
+    ifstream f("data.txt");
+    
+    if (f)
+    {
+        while (f >> name >> login)
+        {
+            if (user_login == login)
+            {
+                flag = true;
+                break;
+            }
+        }
+    }
+    
+    return flag;
+}
 
 
 void register_user()
@@ -86,7 +131,21 @@ void menu()
         }
         else if (x == 3)
         {
-            cout << "3" << endl;
+            cout << "Loginingizni kiriting: " << endl;
+            string l;
+            cin >> l;
+            
+            if (is_user_registered(l))
+            {
+                int b;
+                cin >> b;
+                
+                deposit(l, b);
+            }
+            else
+            {
+                cout << "Bunday foydalanuvchi ro'yxatdan o'tmagan" << endl;
+            }
             break;
         }
         else if (x == 4)
