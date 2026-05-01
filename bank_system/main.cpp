@@ -2,29 +2,54 @@
 #include <fstream>
 using namespace std;
 
-void deposit(string user_login, int new_balance)
+void show_balance(string user_login)
 {
-    ifstream f("data.txt");
-    ofstream f2("temp.txt");
+    string name, login, password, balance;
     
-    string name, login, password;
-    int balance;
+    ifstream f("data.txt");
+    
     
     while (f >> name >> login >> password >> balance)
     {
         if (user_login == login)
         {
-            balance += new_balance;
+            cout << balance << endl;
+            break;
         }
-        f2 << name << " " << login << " " << password << " " << balance << endl;
     }
-    
-    f.close();
-    f2.close();
-    
-    remove("data.txt");
-    rename("temp.txt", "data.txt");
-    
+}
+
+void deposit(string user_login, int new_balance)
+{
+    if (new_balance > 0)
+    {
+        ifstream f("data.txt");
+        ofstream f2("temp.txt");
+        
+        string name, login, password;
+        int balance;
+        
+        while (f >> name >> login >> password >> balance)
+        {
+            if (user_login == login)
+            {
+                balance += new_balance;
+            }
+            f2 << name << " " << login << " " << password << " " << balance << endl;
+        }
+        
+        f.close();
+        f2.close();
+        
+        remove("data.txt");
+        rename("temp.txt", "data.txt");
+        
+        cout << "Summa muvaffaqiyatli qo'shildi" << endl;
+    }
+    else
+    {
+        cout << "Qo'yiladigan summa 0 dan katta bo'lishi kerak" << endl;
+    }
 }
 
 bool is_user_registered(string user_login)
@@ -126,7 +151,18 @@ void menu()
         } 
         else if (x == 2)
         {
-            cout << "2" << endl;
+            cout << "Loginingizni kiriting: " << endl;
+            string l;
+            cin >> l;
+            
+            if (is_user_registered(l))
+            {
+                show_balance(l);
+            }
+            else
+            {
+                cout << "Bunday foydalanuvchi ro'yxatdan o'tmagan" << endl;
+            }
             break;
         }
         else if (x == 3)
@@ -138,9 +174,12 @@ void menu()
             if (is_user_registered(l))
             {
                 int b;
+                cout << "Summani kiriting: " << endl;
                 cin >> b;
                 
                 deposit(l, b);
+                
+                
             }
             else
             {
