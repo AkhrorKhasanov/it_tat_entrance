@@ -2,6 +2,37 @@
 #include <fstream>
 using namespace std;
 
+void withdraw(string user_login, int summa)
+{
+   
+        ifstream f("data.txt");
+        ofstream f2("temp.txt");
+        
+        string name, login, password;
+        int balance;
+        
+        while (f >> name >> login >> password >> balance)
+        {
+            if (user_login == login)
+            {
+                if (balance >= summa)
+                {
+                    balance -= summa;
+                }
+            }
+            f2 << name << " " << login << " " << password << " " << balance << endl;
+        }
+        
+        f.close();
+        f2.close();
+        
+        remove("data.txt");
+        rename("temp.txt", "data.txt");
+        
+        cout << "Summa muvaffaqiyatli yechib olindi" << endl;
+    
+}
+
 void show_balance(string user_login)
 {
     string name, login, password, balance;
@@ -189,7 +220,25 @@ void menu()
         }
         else if (x == 4)
         {
-            cout << "4" << endl;
+            cout << "Loginingizni kiriting: " << endl;
+            string l;
+            cin >> l;
+            
+            if (is_user_registered(l))
+            {
+                int b;
+                cout << "Summani kiriting: " << endl;
+                cin >> b;
+                
+                withdraw(l, b);
+                
+                
+            }
+            else
+            {
+                cout << "Bunday foydalanuvchi ro'yxatdan o'tmagan" << endl;
+            }
+            break;
         }
         else if (x == 5)
         {
