@@ -2,34 +2,36 @@
 #include <fstream>
 using namespace std;
 
+
+
 void withdraw(string user_login, int summa)
 {
    
-        ifstream f("data.txt");
-        ofstream f2("temp.txt");
+    ifstream f("data.txt");
+    ofstream f2("temp.txt");
         
-        string name, login, password;
-        int balance;
+    string name, login, password;
+    int balance;
         
-        while (f >> name >> login >> password >> balance)
+    while (f >> name >> login >> password >> balance)
+    {
+        if (user_login == login)
         {
-            if (user_login == login)
+            if (balance >= summa)
             {
-                if (balance >= summa)
-                {
-                    balance -= summa;
-                }
+                balance -= summa;
             }
-            f2 << name << " " << login << " " << password << " " << balance << endl;
         }
+        f2 << name << " " << login << " " << password << " " << balance << endl;
+    }
         
-        f.close();
-        f2.close();
+    f.close();
+    f2.close();
         
-        remove("data.txt");
-        rename("temp.txt", "data.txt");
+    remove("data.txt");
+    rename("temp.txt", "data.txt");
         
-        cout << "Summa muvaffaqiyatli yechib olindi" << endl;
+    cout << "Summa muvaffaqiyatli yechib olindi" << endl;
     
 }
 
@@ -81,6 +83,13 @@ void deposit(string user_login, int new_balance)
     {
         cout << "Qo'yiladigan summa 0 dan katta bo'lishi kerak" << endl;
     }
+}
+
+void transaction(string l1, string l2, int summa)
+{
+    withdraw(l1, summa);
+    
+    deposit(l2, summa);
 }
 
 bool is_user_registered(string user_login)
@@ -172,7 +181,7 @@ void menu()
         cout << "2. Balansni ko'rish" << endl;
         cout << "3. Pul qo'yish" << endl;
         cout << "4. Pul yechish" << endl;
-        cout << "5. Chiqish" << endl;
+        cout << "5. Pul ko'chirish" << endl;
         cin >> x;
 
         if (x == 1)
@@ -242,7 +251,30 @@ void menu()
         }
         else if (x == 5)
         {
-            cout << "Tizimdan chiqdingiz." << endl;
+            cout << "Loginingizni kiriting: " << endl;
+            string l1;
+            cin >> l1;
+            
+            cout << "Mijoz loginini kiriting: " << endl;
+            string l2;
+            cin >> l2;
+            
+            cout << "Summani kiriting: " << endl;
+            int summa;
+            cin >> summa;
+            
+            
+            if (is_user_registered(l1) && is_user_registered(l2))
+            {
+                
+                transaction(l1, l2, summa);
+                cout << "Pul muvaffaqiyatli ko'chirildi" << endl;
+                
+            }
+            else
+            {
+                cout << "Bunday foydalanuvchilar juftligi ro'yxatdan o'tmagan" << endl;
+            }
             break;
         }
         else
