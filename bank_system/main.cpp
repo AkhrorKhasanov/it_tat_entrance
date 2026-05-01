@@ -60,40 +60,6 @@ void register_user()
     
 }
 
-void register_or_login()
-{
-    int x;
-    while (true)
-    {
-        cout << "Iltimos, tanlang: " << endl;
-        cout << "1. Ro'yxatdan o'tish" << endl;
-        cout << "2. Tizimga kirish" << endl;
-        cout << "3. Chiqish" << endl;
-        cin >> x;
-
-        if (x == 1)
-        {
-            cout << "Ro'yxatdan o'tish" << endl;
-            register_user();
-            break;
-        } 
-        else if (x == 2)
-        {
-            cout << "2" << endl;
-            break;
-        }
-        else if (x == 3)
-        {
-            cout << "Tizimdan chiqdingiz." << endl;
-            break;
-        }
-        else
-        {
-            cout << "To'g'ri tanlov kiriting!" << endl;
-        }
-        
-    }
-}
 
 void menu()
 {
@@ -101,15 +67,16 @@ void menu()
     while (true)
     {
         cout << "Iltimos, tanlang: " << endl;
-        cout << "1. Balansni ko'rish" << endl;
-        cout << "2. Pul qo'yish" << endl;
-        cout << "3. Pul yechish" << endl;
-        cout << "4. Chiqish" << endl;
+        cout << "1. Ro'yxatdan o'tish" << endl;
+        cout << "2. Balansni ko'rish" << endl;
+        cout << "3. Pul qo'yish" << endl;
+        cout << "4. Pul yechish" << endl;
+        cout << "5. Chiqish" << endl;
         cin >> x;
 
         if (x == 1)
         {
-            cout << "1" << endl;
+            register_user();
             break;
         } 
         else if (x == 2)
@@ -123,6 +90,10 @@ void menu()
             break;
         }
         else if (x == 4)
+        {
+            cout << "4" << endl;
+        }
+        else if (x == 5)
         {
             cout << "Tizimdan chiqdingiz." << endl;
             break;
@@ -139,7 +110,7 @@ void menu()
 int main() 
 {
     
-    register_or_login();
+    menu();
 
     return 0;
 }
